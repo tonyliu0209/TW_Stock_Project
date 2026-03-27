@@ -1,14 +1,17 @@
-pandas==2.2.2
-numpy==1.26.4
+# 基礎數據處理
+pandas>=2.0.0
+numpy>=1.24.0
 
-scikit-learn==1.4.2
-xgboost==2.0.3
+# 機器學習核心
+scikit-learn>=1.4.0
+xgboost>=2.0.0
+joblib>=1.3.0
 
-plotly==5.20.0
-matplotlib==3.8.4
+# 繪圖與視覺化
+plotly>=5.0.0
+matplotlib>=3.8.0
 
-streamlit==1.33.0
-
-yfinance==0.2.37
-
-joblib==1.4.2
+# 網頁框架與金融 API
+streamlit>=1.33.0
+yfinance>=0.2.37
+lxml  # 確保 yfinance 運作順暢
