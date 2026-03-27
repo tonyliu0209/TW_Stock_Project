@@ -6,10 +6,6 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-plt.rcParams['font.family'] = 'Microsoft JhengHei'  # 微軟正黑體
-plt.rcParams['axes.unicode_minus'] = False  # 避免負號變方塊
-plt.style.use('ggplot')
-
 from features import (
     FEATURES_COLS,
     clean_stock_data,
@@ -20,11 +16,18 @@ from features import (
     get_feature_importance
 )
 
+plt.rcParams['font.family'] = 'Microsoft JhengHei'  # 微軟正黑體
+plt.rcParams['axes.unicode_minus'] = False  # 避免負號變方塊
+plt.style.use('ggplot')
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # --- 1. 新增：動態載入個股模型的快取函數 ---
 @st.cache_resource
 def load_specific_model(stock_id):
     """根據 stock_id 去抓取對應的最佳模型"""
-    model_path = f"models/best_model_{stock_id}.pkl"
+    model_path = os.path.join(BASE_DIR, "models", f"best_model_{stock_id}.pkl")
+    
     if os.path.exists(model_path):
         return joblib.load(model_path)
     return None
@@ -32,7 +35,17 @@ def load_specific_model(stock_id):
 # 使用快取，避免重複讀取與計算
 @st.cache_data
 def load_and_preprocess_data():
-    df = pd.read_csv("data/stock_history_yfinance.csv")
+    file_path = os.path.join(BASE_DIR, "data", "stock_history_yfinance.csv")
+    
+    if not os.path.exists(file_path):
+        st.error(f"路徑錯誤！目前搜尋路徑為: {file_path}")
+        data_dir = os.path.join(BASE_DIR, "data")
+        if os.path.exists(data_dir):
+            st.write("該目錄下的檔案清單:", os.listdir(data_dir))
+        return pd.DataFrame()
+        
+    df = pd.read_csv(file_path)
+    
     full_df = clean_stock_data(df)
     full_df = calculate_technical_indicators(full_df)
     full_df = detect_crossover_MA_signals(full_df)
