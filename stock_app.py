@@ -258,7 +258,7 @@ def add_ai_prediction_marker(pred_fig, stock_df, prediction, confidence, thresho
 
 def plot_feature_importance(importance_df):
     try:
-        my_font = fm.FontProperties(fname=FONT_PATH)
+        my_font = FontProperties(fname=FONT_PATH)
     except:
         # 萬一字體載入失敗的備案，至少不會崩潰
         st.warning("⚠️ 中文字體載入失敗，將使用預設字體")
@@ -278,6 +278,9 @@ def plot_feature_importance(importance_df):
     ax.set_title("Feature Importance", fontsize=14)
     if my_font:
         ax.set_xlabel("重要性", fontproperties=my_font, fontsize=12)
+        # 如果特徵名稱(Y軸)有中文，也要套用字體
+        for label in ax.get_yticklabels():
+            label.set_fontproperties(my_font)
     else:
         ax.set_xlabel("重要性", fontsize=12)
 
