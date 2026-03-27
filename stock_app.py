@@ -5,6 +5,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from matplotlib.font_manager import FontProperties
 
 from features import (
     FEATURES_COLS,
@@ -16,7 +17,8 @@ from features import (
     get_feature_importance
 )
 
-plt.rcParams['font.family'] = 'Microsoft JhengHei'  # 微軟正黑體
+# 針對 Linux 伺服器環境設定 Noto Sans CJK 字體
+plt.rcParams['font.family'] = ['Noto Sans CJK TC', 'Microsoft JhengHei', 'sans-serif']
 plt.rcParams['axes.unicode_minus'] = False  # 避免負號變方塊
 plt.style.use('ggplot')
 
