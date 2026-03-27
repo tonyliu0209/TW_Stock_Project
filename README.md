@@ -1,6 +1,8 @@
 # # 台股短期趨勢預測與決策輔助系統
 > 結合機器學習模型與技術指標，建立具備信心門檻機制的台股短期趨勢預測系統，將模型輸出轉化為較具參考價值的操作建議。
 
+🔗 Live Demo: https://twstockproject-l36mxwq44t8fezekxuhroc.streamlit.app/
+
 --- 
 
 ## 📌 專案概述（Project Overview）
