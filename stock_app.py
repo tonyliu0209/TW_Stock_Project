@@ -23,6 +23,7 @@ plt.rcParams['axes.unicode_minus'] = False  # 避免負號變方塊
 plt.style.use('ggplot')
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FONT_PATH = os.path.join(BASE_DIR, "data", "msjh.ttf")
 
 # --- 1. 新增：動態載入個股模型的快取函數 ---
 @st.cache_resource
@@ -256,6 +257,13 @@ def add_ai_prediction_marker(pred_fig, stock_df, prediction, confidence, thresho
 
 
 def plot_feature_importance(importance_df):
+    try:
+        my_font = fm.FontProperties(fname=FONT_PATH)
+    except:
+        # 萬一字體載入失敗的備案，至少不會崩潰
+        st.warning("⚠️ 中文字體載入失敗，將使用預設字體")
+        my_font = None
+        
     feat_fig, ax = plt.subplots(figsize=(8, 5))
 
     # 取前10個
@@ -265,10 +273,13 @@ def plot_feature_importance(importance_df):
     ax.barh(df['feature'], df['importance'])
 
     # 旋轉 x 軸
-    plt.xticks(rotation=45, ha='right')
+    # plt.xticks(rotation=45, ha='right')
 
-    ax.set_title("Feature Importance")
-    ax.set_xlabel("重要性")
+    ax.set_title("Feature Importance", fontsize=14)
+    if my_font:
+        ax.set_xlabel("重要性", fontproperties=my_font, fontsize=12)
+    else:
+        ax.set_xlabel("重要性", fontsize=12)
 
     # 移除框線
     ax.spines['right'].set_visible(False)
